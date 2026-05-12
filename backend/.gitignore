@@ -1,0 +1,7 @@
+
+uploads
+node_modules
+.env
+backend/.env
+
+chat-hub-6a445-firebase-adminsdk-fbsvc-1dcca347dd.json
