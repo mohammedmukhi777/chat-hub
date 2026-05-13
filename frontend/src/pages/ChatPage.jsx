@@ -5,7 +5,7 @@ import useChatStore from "../context/chatStore";
 import Sidebar from "../components/layout/Sidebar";
 import ChatWindow from "../components/chat/ChatWindow";
 import NoChatSelected from "../components/chat/NoChatSelected";
-import SetupProfile from "../components/auth/SetupProfile";
+import SetupProfile from "../components/auth/SetUpProfile";
 
 function ChatPage() {
   const { user, fetchMe } = useAuthStore();
