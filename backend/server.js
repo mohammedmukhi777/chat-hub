@@ -13,10 +13,12 @@ const app = express();
 const server = http.createServer(app);
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://chat-hub-dm6c.vercel.app"
-  ],
+ origin: [
+  "http://localhost:5173",
+  "https://chat-hub-dm6c.vercel.app",
+  "https://chat-hub-dm6c-git-main-mohammed-mukhi-s-projects.vercel.app",
+  "https://chat-hub-dm6c-qpqhy51qo-mohammed-mukhi-s-projects.vercel.app"
+],
   credentials: true
 }));
 app.use(express.json());
