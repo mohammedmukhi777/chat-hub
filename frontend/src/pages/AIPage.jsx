@@ -59,7 +59,7 @@ function AIPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#0a0a0f] text-white">
+    <div className="flex flex-col h-[100dvh] bg-[#0a0a0f] text-white">
 
       {/* Fixed Header */}
       <div className="sticky top-0 z-10 flex items-center justify-between px-4 py-3 bg-[#0f0f13] border-b border-white/5">

@@ -1,4 +1,4 @@
-import { Phone, Video, MoreVertical, X } from "lucide-react";
+import { Phone, Video, MoreVertical, X, ArrowLeft } from "lucide-react";
 import useAuthStore from "../../context/authStore";
 import useChatStore from "../../context/chatStore";
 
@@ -14,10 +14,19 @@ function ChatHeader({ isTyping }) {
     : other?.phone?.slice(-2) || "?";
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-[#0f0f13] border-b border-white/5">
-      <div className="flex items-center gap-3">
-        <div className="relative">
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
+    <div className="flex items-center justify-between px-3 md:px-4 py-3 bg-[#0f0f13] border-b border-white/5 flex-shrink-0">
+      <div className="flex items-center gap-2 md:gap-3 min-w-0">
+        {/* Mobile Back Button */}
+        <button
+          onClick={() => setActiveConversation(null)}
+          className="md:hidden w-9 h-9 flex items-center justify-center text-gray-300 hover:text-white hover:bg-white/10 rounded-xl transition flex-shrink-0"
+          aria-label="Back to conversations"
+        >
+          <ArrowLeft size={20} />
+        </button>
+
+        <div className="relative flex-shrink-0">
+          <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm">
             {other?.avatar ? (
               <img src={other.avatar} className="w-full h-full rounded-xl object-cover" />
             ) : (

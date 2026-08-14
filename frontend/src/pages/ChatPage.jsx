@@ -39,10 +39,16 @@ function ChatPage() {
   }, [user._id]);
 
   return (
-    <div className="flex h-screen bg-[#0a0a0f] text-white overflow-hidden">
+    <div className="flex h-[100dvh] w-full bg-[#0a0a0f] text-white overflow-hidden">
       {showSetup && <SetupProfile onComplete={fetchMe} />}
-      <Sidebar />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      
+      {/* Sidebar: Full width on mobile when no active conversation, fixed width on desktop */}
+      <div className={`h-full flex-shrink-0 w-full md:w-80 md:flex ${activeConversation ? "hidden md:flex" : "flex"}`}>
+        <Sidebar />
+      </div>
+
+      {/* Main Chat Area: Full width on mobile when active conversation, flex-1 on desktop */}
+      <div className={`h-full flex-1 flex-col overflow-hidden ${activeConversation ? "flex" : "hidden md:flex"}`}>
         {activeConversation ? <ChatWindow /> : <NoChatSelected />}
       </div>
     </div>
