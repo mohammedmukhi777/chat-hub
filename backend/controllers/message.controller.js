@@ -60,6 +60,20 @@ const sendMessage = async (req, res) => {
     const { conversationId, text, messageType = "text", imageUrl } = req.body;
     const senderId = req.user._id;
 
+    // Deduplication check: ignore duplicate messages sent within 2 seconds
+    const twoSecondsAgo = new Date(Date.now() - 2000);
+    const recentDuplicate = await Message.findOne({
+      conversationId,
+      sender: senderId,
+      text: text || "",
+      imageUrl: imageUrl || "",
+      createdAt: { $gte: twoSecondsAgo },
+    }).populate("sender", "name avatar");
+
+    if (recentDuplicate) {
+      return res.status(200).json({ message: recentDuplicate });
+    }
+
     let message = await Message.create({
       conversationId,
       sender: senderId,

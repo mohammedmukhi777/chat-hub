@@ -5,6 +5,15 @@ const SOCKET_URL = import.meta.env.VITE_API_URL.replace("/api", "");
 let socket = null;
 
 export const connectSocket = (userId) => {
+  if (socket && socket.connected) {
+    if (userId) socket.emit("user_online", userId);
+    return socket;
+  }
+
+  if (socket) {
+    socket.disconnect();
+  }
+
   socket = io(SOCKET_URL, {
     withCredentials: true,
     transports: ["websocket", "polling"],
@@ -12,7 +21,7 @@ export const connectSocket = (userId) => {
 
   socket.on("connect", () => {
     console.log("Socket connected");
-    socket.emit("user_online", userId);
+    if (userId) socket.emit("user_online", userId);
   });
 
   return socket;

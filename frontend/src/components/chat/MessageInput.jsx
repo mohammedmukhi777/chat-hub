@@ -11,6 +11,7 @@ function MessageInput({ onSend }) {
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
   const fileRef = useRef();
   const typingTimeout = useRef(null);
   const { user } = useAuthStore();
@@ -45,37 +46,47 @@ function MessageInput({ onSend }) {
   const removeImage = () => {
     setImageFile(null);
     setImagePreview(null);
-    fileRef.current.value = "";
+    if (fileRef.current) fileRef.current.value = "";
   };
 
   const handleSend = async () => {
-    if (!text.trim() && !imageFile) return;
+    if (isSending || uploading) return;
+    const trimmedText = text.trim();
+    const currentImage = imageFile;
+    if (!trimmedText && !currentImage) return;
+
+    // Immediately clear inputs to prevent fast double taps
+    setText("");
+    removeImage();
+    setIsSending(true);
 
     try {
       let imageUrl = "";
 
-      if (imageFile) {
+      if (currentImage) {
         setUploading(true);
         const formData = new FormData();
-        formData.append("image", imageFile);
+        formData.append("image", currentImage);
         const res = await api.post("/upload/image", formData);
         imageUrl = res.data.imageUrl;
         setUploading(false);
       }
 
-      await onSend(text, imageUrl);
-      setText("");
-      removeImage();
+      await onSend(trimmedText, imageUrl);
     } catch {
       toast.error("Failed to send message");
+    } finally {
       setUploading(false);
+      setIsSending(false);
     }
   };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      if (!isSending && !uploading) {
+        handleSend();
+      }
     }
   };
 
@@ -127,7 +138,7 @@ function MessageInput({ onSend }) {
         {/* Send button */}
         <button
           onClick={handleSend}
-          disabled={uploading || (!text.trim() && !imageFile)}
+          disabled={isSending || uploading || (!text.trim() && !imageFile)}
           className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl transition disabled:opacity-40 flex-shrink-0 shadow-lg shadow-indigo-500/20"
         >
           {uploading ? (
