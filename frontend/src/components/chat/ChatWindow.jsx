@@ -84,21 +84,21 @@ function ChatWindow() {
     <div className="flex flex-col h-full">
       <ChatHeader isTyping={isTyping} />
 
-    <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-[#0a0a0f]" style={{
-  backgroundImage: `radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 50%), 
+      <div className="flex-1 overflow-y-auto p-4 space-y-2 bg-[#0a0a0f]" style={{
+        backgroundImage: `radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.03) 0%, transparent 50%), 
   radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.03) 0%, transparent 50%)`
-  }}>
+      }}>
         {messages.map((msg) => {
-  const senderId = msg.sender?._id?.toString() || msg.sender?.toString();
-  const isOwn = senderId === user._id?.toString();
-  return (
-    <MessageBubble
-      key={msg._id}
-      message={msg}
-      isOwn={isOwn}
-    />
-  );
-})}
+          const senderId = msg.sender?._id?.toString() || msg.sender?.toString();
+          const isOwn = senderId === user._id?.toString();
+          return (
+            <MessageBubble
+              key={msg._id}
+              message={msg}
+              isOwn={isOwn}
+            />
+          );
+        })}
         {isTyping && (
           <div className="flex items-center gap-2">
             <div className="bg-[#1a1a2e] rounded-2xl px-4 py-3 flex gap-1">
